@@ -9,25 +9,18 @@
           text-color="#fff"
           active-text-color="#ffd04b"
           router
+          unique-opened
         >
           <el-menu-item index="/home">
             <i class="el-icon-house"></i>
             <span slot="title">首页</span>
           </el-menu-item>
-          <el-submenu index="1">
+          <el-submenu v-for="item in getStateMenuList" :key="item.id" :index="item.id.toString()">
             <template slot="title">
-              <i class="el-icon-setting"></i>
-              <span>系统管理</span>
+              <i :class="item.icon"></i>
+              <span>{{item.title}}</span>
             </template>
-            <el-menu-item index="/menu">菜单管理</el-menu-item>
-            <el-menu-item index="/user">用户管理</el-menu-item>
-          </el-submenu>
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-goods"></i>
-              <span>商城管理</span>
-            </template>
-            <el-menu-item index="/goods">商品管理</el-menu-item>
+            <el-menu-item v-for="menu in item.children" :key="menu.id" :index="menu.url">{{menu.title}}</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-col>
@@ -36,16 +29,33 @@
 </template>
 
 <script>
+import {getMenuList} from '../../utils/axios'
+import {mapGetters,mapActions} from 'vuex'
 export default {
   data() {
     return {
-        defaultActive:"/home"
+        defaultActive:"/home",
     };
   },
   mounted(){
       //组件挂载，更改选中默认值
       this.defaultActive=this.$route.path
-  }
+      
+      //页面一加载就调取菜单列表数据
+      // getMenuList({istree:1})
+      // .then(res=>{
+      //   if(res.data.code==200){
+      //     this.navList=res.data.list
+      //   }
+      // })
+      this.getActionMenuList()
+  },
+  methods: {
+    ...mapActions(["getActionMenuList"])
+  },
+  computed: {
+    ...mapGetters(['getStateMenuList'])
+  },
 };
 </script>
 

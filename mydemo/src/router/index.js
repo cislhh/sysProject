@@ -26,7 +26,7 @@ export default new Router({
           path:"/user",
           component:()=>import("@/components/views/user"),
           meta:{
-            name:"用户管理"
+            name:"管理员管理"
           }
         },
         {
@@ -36,6 +36,13 @@ export default new Router({
         {
           path:"/home",
           component:()=>import("@/components/views/home")
+        },
+        {
+          path:"/role",
+          component:()=>import("@/components/views/role"),
+          meta:{
+            name:"角色管理"
+          }
         },
         {
           path:"",

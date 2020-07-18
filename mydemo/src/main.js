@@ -9,6 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import "./assets/css/reset.css"
 
+import store from './store'
 // import axios from "axios"
 // Vue.prototype.$http = axios
 
@@ -20,6 +21,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

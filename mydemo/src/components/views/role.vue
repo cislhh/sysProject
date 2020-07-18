@@ -7,24 +7,27 @@
       <el-button @click="add" type="primary" size="small">添加</el-button>
     </div>
     <!-- 表格信息 -->
-    <el-table :data="getStateMenuList" border style="width: 100%" row-key="id" :tree-props="{children: 'children'}">
-      <el-table-column prop="id" label="菜单编号"> </el-table-column>
-      <el-table-column prop="title" label="菜单名称"> </el-table-column>
-      <el-table-column prop="pid" label="上级菜单"> </el-table-column>
-      <el-table-column prop="icon" label="菜单图标"> </el-table-column>
-      <el-table-column prop="url" label="地址"></el-table-column>
+    <el-table
+      :data="getStateRoleList"
+      border
+      style="width: 100%"
+      row-key="id"
+      :tree-props="{ children: 'children' }"
+    >
+      <el-table-column prop="id" label="角色编号"></el-table-column>
+      <el-table-column prop="rolename" label="角色名称"></el-table-column>
       <el-table-column prop="status" label="状态">
         <template slot-scope="item">
-          <el-tag v-if="item.row.status == 1" type="success">启用</el-tag>
+          <el-tag v-if="item.row.status == 1" type="success">正常</el-tag>
           <el-tag v-if="item.row.status == 2" type="danger">禁用</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="180">
         <template slot-scope="item">
-          <el-button @click="update(item.row.id)" size="small" type="primary"
+          <el-button size="small" type="primary" @click="update(item.row.id)"
             >编辑</el-button
           >
-          <el-button @click="del(item.row.id)" size="small" type="danger"
+          <el-button size="small" type="danger" @click="del(item.row.id)"
             >删除</el-button
           >
         </template>
@@ -32,43 +35,39 @@
     </el-table>
     <!-- 弹框内容 -->
     <el-dialog
-      :title="isAdd ? '菜单添加' : '菜单编辑'"
+      :title="isAdd ? '角色添加' : '角色编辑'"
       :visible.sync="dialogIsShow"
       center
       :before-close="cancel"
     >
       <el-form :model="menuInfo" :rules="rules" ref="menuInfo">
         <el-form-item
-          label="菜单名称："
+          label="角色名称："
           :label-width="formLabelWidth"
-          prop="title"
+          prop="rolename"
         >
-          <el-input v-model="menuInfo.title"></el-input>
+          <el-input v-model="menuInfo.rolename"></el-input>
         </el-form-item>
+
         <el-form-item
-          label="上级菜单："
+          label="角色权限："
           :label-width="formLabelWidth"
-          prop="pid"
-          placeholder="请选择菜单"
+          prop="rolename"
         >
-          <el-select v-model="menuInfo.pid" placeholder="请选择">
-            <el-option label="顶级菜单" :value="0">顶级菜单</el-option>
-            <el-option v-for="item in getStateMenuList" :key="item.id" :label="item.title" :value="item.id">{{item.title}}</el-option>
-            <!-- <el-option label="商城管理" :value="2">商城管理</el-option> -->
-          </el-select>
-        </el-form-item>
-        <el-form-item label="菜单类型：" :label-width="formLabelWidth">
-          <el-radio v-model="menuInfo.type" label="1">目录</el-radio>
-          <el-radio v-model="menuInfo.type" label="2">菜单</el-radio>
-        </el-form-item>
-        <el-form-item v-if="menuInfo.type==1" label="菜单图标：" :label-width="formLabelWidth">
-          <el-input v-model="menuInfo.icon"></el-input>
-        </el-form-item>
-        <el-form-item v-if="menuInfo.type==2" label="菜单地址：" :label-width="formLabelWidth">
-          <el-input v-model="menuInfo.url"></el-input>
+          <el-tree
+            :data="getStateMenuList"
+            show-checkbox
+            default-expand-all
+            node-key="id"
+            ref="tree"
+            highlight-current
+            :props="defaultProps"
+            :default-checked-keys="defaultKey"
+          >
+          </el-tree>
         </el-form-item>
         <el-form-item label="状态：" :label-width="formLabelWidth">
-          <el-radio v-model="menuInfo.status" label="1">启用</el-radio>
+          <el-radio v-model="menuInfo.status" label="1">正常</el-radio>
           <el-radio v-model="menuInfo.status" label="2">禁用</el-radio>
         </el-form-item>
       </el-form>
@@ -86,31 +85,37 @@
 </template>
 
 <script>
-//引入菜单接口
-import { getMenuList ,getMenuAdd,getMenuInfo,getMenuEdit,getMenuDelete} from "../../utils/axios";
-import {mapActions,mapGetters} from 'vuex'
+//引入角色接口
+import {
+  getRoleAdd,
+  getRoleInfo,
+  getRoleEdit,
+  getRoleDelete
+} from "../../utils/axios";
+import { mapActions, mapGetters } from "vuex";
 import breadCrumb from "../common/breadCrumb";
 export default {
   data() {
     return {
       menuInfo: {
-        pid: 0,
-        title: "",
-        icon: "",
-        url: "",
-        type: "1",
+        rolename: "",
+        menus: "",
         status: "1"
       },
       isAdd: true, //添加状态
       formLabelWidth: "100px", //label宽度
       dialogIsShow: false, //是否出现弹框
       editId: 0,
+      defaultKey:[],
       rules: {
-        title: [
-          { required: true, message: "请输入菜单名称", trigger: "blur" },
+        rolename: [
+          { required: true, message: "请输入角色名称", trigger: "blur" },
           { min: 2, max: 6, message: "长度在 2 到 6 个字符", trigger: "blur" }
-        ],
-        pid: [{ required: true, message: "请选择菜单", trigger: "blur" }]
+        ]
+      },
+      defaultProps: {
+        children: "children",
+        label: "title"
       }
     };
   },
@@ -118,16 +123,17 @@ export default {
     breadCrumb
   },
   computed: {
-    ...mapGetters(["getStateMenuList"])
+    ...mapGetters(["getStateMenuList", "getStateRoleList"])
   },
   mounted() {
-    //组件一加载就调取菜单接口
-    //触发才调取vuex中的菜单列表
+    //组件一加载就调取角色接口
+    //触发才调取vuex中的角色列表
+    this.getActionRoleList();
     this.getActionMenuList();
   },
   methods: {
-    //获取菜单列表事件
-    ...mapActions(["getActionMenuList"]),
+    //获取角色列表事件
+    ...mapActions(["getActionRoleList", "getActionMenuList"]),
     //添加
     add() {
       console.log(1);
@@ -140,19 +146,21 @@ export default {
       this.isAdd = false;
       //给id赋值
       this.editId = id;
-      //调取菜单查询一条数据
+      //调取角色查询一条数据
       // this.$http
       //   .get("/api/api/menuinfo", {
       //     params: { id }
       //   })
-      getMenuInfo({id})
-        .then(res => {
-          if (res.data.code == 200) {
-            this.menuInfo = res.data.list;
-            this.menuInfo.type = this.menuInfo.type.toString();
-            this.menuInfo.status = this.menuInfo.status.toString();
-          }
-        });
+      getRoleInfo({ id }).then(res => {
+        if (res.data.code == 200) {
+          console.log(res.data.list.menus.split(","))
+          this.menuInfo = res.data.list;
+          this.defaultKey = this.menuInfo.menus
+                        ? this.menuInfo.menus.split(',')
+                        : []
+          this.menuInfo.status = this.menuInfo.status.toString();
+        }
+      });
     },
     // 删除
     del(id) {
@@ -164,11 +172,10 @@ export default {
         .then(() => {
           //调取删除逻辑
           // this.$http.post("/api/api/menudelete", { id })
-          getMenuDelete({id})
-          .then(res => {
+          getRoleDelete({ id }).then(res => {
             if (res.data.code == 200) {
               //重新调取接口列表
-              this.getActionMenuList();
+              this.getActionRoleList();
               this.$message.success(res.data.msg);
             } else {
               this.$message.error(res.data.msg);
@@ -190,32 +197,32 @@ export default {
     //重置输入内容
     reset() {
       this.menuInfo = {
-        pid: 0,
-        title: "",
-        icon: "",
-        url: "",
-        type: "1",
+        rolename: "",
+        menus: "",
         status: "1"
       };
+      this.$refs.tree.setCheckedKeys([]); //重置树形结构的key值
     },
     //提交
 
     subInfo(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+           this.menuInfo.menus = this.$refs.tree.getCheckedKeys().join(",");
           //根据isAdd状态判断执行接口
           if (this.isAdd) {
-            console.log(this.menuInfo, "表单信息");
             //调取添加接口
-            getMenuAdd(this.menuInfo)
-            .then(res => {
+            // console.log(this.menuInfo)
+            console.log(this.$refs.tree.getCheckedKeys())
+            //对角色权限进行数据类型转化（根据后端要求转换相应类型）
+            getRoleAdd(this.menuInfo).then(res => {
               if (res.data.code == 200) {
                 //关闭弹窗
                 this.dialogIsShow = false;
                 //清空输入框
                 this.reset();
                 //添加成功后，重新查询列表
-                this.getActionMenuList();
+                this.getActionRoleList();
                 this.$message.success(res.data.msg);
               } else if (res.data.code == 500) {
                 this.$message.warning(res.data.msg);
@@ -228,15 +235,14 @@ export default {
             data.id = this.editId;
             //调取更新接口
             // this.$http.post("/api/api/menuedit", data)
-            getMenuEdit(data)
-            .then(res => {
+            getRoleEdit(data).then(res => {
               if (res.data.code == 200) {
                 //关闭弹窗
                 this.dialogIsShow = false;
                 //清空输入框
                 this.reset();
                 //添加成功后，重新查询列表
-                this.getActionMenuList();
+                this.getActionRoleList();
                 this.$message.success(res.data.msg);
               } else if (res.data.code == 500) {
                 this.$message.warning(res.data.msg);
