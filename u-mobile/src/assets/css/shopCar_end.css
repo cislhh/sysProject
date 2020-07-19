@@ -1,0 +1,318 @@
+@import 'head.css';
+@import "footer.css";
+body {
+  margin: 0;
+  font-family: "微软雅黑", "宋体", Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 1;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-size: 100%;
+  font-weight: normal;
+}
+ul,
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+p,
+dl,
+dd {
+  margin: 0;
+}
+img {
+  vertical-align: middle;
+  border: none;
+}
+a {
+  text-decoration: none;
+  color: #666;
+}
+strong,
+b {
+  font-weight: normal;
+}
+i,
+em {
+  font-style: normal;
+}
+table {
+  border-collapse: collapse;
+}
+th {
+  font-weight: normal;
+  text-align: left;
+  vertical-align: top;
+}
+td {
+  text-align: left;
+  vertical-align: top;
+}
+input {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-family: inherit;
+  outline: none;
+  /*去掉输入框的蓝色轮廓框*/
+}
+textarea {
+  resize: none;
+  /* 禁止用户重置元素大小 */
+  overflow: auto;
+  font-family: inherit;
+  outline: none;
+}
+.clearfix::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+a,
+input,
+button {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+input,
+button {
+  -webkit-appearance: none;
+}
+input {
+  border-radius: 0;
+}
+input::-webkit-input-placeholder {
+  color: #666;
+  /*  默认的样式 */
+}
+input:focus::-webkit-input-placeholder {
+  color: #666;
+  /* 点击后的样式 */
+}
+.container {
+  width: 7.5rem;
+  margin: 0 auto;
+  background-color: #f1f1f1;
+}
+.wrap {
+  width: 7.1rem;
+  margin: 0 auto;
+}
+section {
+  margin-top: 0.7rem;
+  margin-bottom: 2rem;
+  background-color: #fff;
+}
+.address {
+  background-color: #fff;
+  margin-bottom: 0.1rem;
+  overflow: hidden;
+  position: relative;
+}
+.address p {
+  font-size: 0.23rem;
+  color: #5f5f5f;
+  margin: 0.24rem 0;
+}
+.address img {
+  width: 0.35rem;
+  height: 0.21rem;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%) rotate(-90deg);
+}
+.address .people span {
+  float: right;
+  margin-right: 0.55rem;
+}
+.address .ads span {
+  float: left;
+}
+.address .ads span:nth-of-type(2) {
+  width: 5.5rem;
+}
+.coms {
+  background-color: #fff;
+  margin-bottom: 0.1rem;
+}
+.coms .com {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 1.28rem;
+}
+.coms .com .msg img {
+  width: 1.05rem;
+  height: 1.03rem;
+  float: left;
+  margin-top: 0.23rem;
+  margin-right: 0.26rem;
+}
+.coms .com .msg .name {
+  float: left;
+  font-size: 0.25rem;
+  color: #626262;
+  margin: 0.4rem 0 0.23rem 0;
+}
+.coms .com .msg .size {
+  font-size: 0.23rem;
+  color: #b9b9b9;
+}
+.coms .com .price {
+  font-size: 0.28rem;
+  color: #e6393b;
+}
+.coms .com .price span {
+  font-size: 0.19rem;
+}
+.coms .num {
+  height: 1.36rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 0.01rem solid #f0f0f0;
+  padding: 0 0.2rem;
+}
+.coms .num p {
+  font-size: 0.24rem;
+  color: #5c5c5c;
+}
+.coms .num form input {
+  font-size: 0.23rem;
+  font-weight: 400;
+  border: 0.01rem solid #000;
+  border-radius: 0.05rem;
+}
+.coms .num form input[type=button] {
+  width: 0.73rem;
+  height: 0.63rem;
+  background-color: #fff;
+  box-sizing: content-box;
+}
+.coms .num form input[type=text] {
+  width: 1.17rem;
+  height: 0.64rem;
+  text-align: center;
+}
+.coms .post {
+  height: 0.96rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.coms .post p {
+  font-size: 0.23rem;
+  color: #5f5f5f;
+}
+.price-down {
+  background-color: #fff;
+  margin-bottom: 0.1rem;
+}
+.price-down .ticket {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 1.02rem;
+  border-bottom: 0.01rem solid #f0f0f0;
+  padding: 0 0.2rem;
+}
+.price-down .ticket p {
+  font-size: 0.23rem;
+  color: #5f5f5f;
+}
+.price-down .point {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 1.02rem;
+}
+.price-down .point p {
+  font-size: 0.23rem;
+  color: #5f5f5f;
+}
+.price-down .point div {
+  display: flex;
+  align-items: center;
+}
+.price-down .point div input {
+  border-radius: 0.05rem;
+}
+.price-down .point div input[type=text] {
+  width: 1.49rem;
+  height: 0.7rem;
+  border: 0.01rem solid #d7d7d7;
+  background-color: #fff;
+  color: #000;
+  text-align: center;
+  font-size: 0.25rem;
+}
+.price-down .point div input[type=button] {
+  width: 0.72rem;
+  height: 0.72rem;
+  box-sizing: content-box;
+  color: #fff;
+  background-color: #f26c10;
+  font-size: 0.25rem;
+}
+.price-down .point div p {
+  margin-left: 0.2rem;
+}
+.price-down .point div p span {
+  color: #e53c3e;
+}
+.end {
+  background-color: #fff;
+  height: 2.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-bottom: 0.01rem solid #f0f0f0;
+}
+.end p {
+  font-size: 0.24rem;
+  color: #5f5f5f;
+}
+.end p:nth-of-type(2) {
+  color: #e53c3e;
+}
+.end div {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.21rem;
+}
+.finalPrice {
+  background-color: #fff;
+  height: 1.32rem;
+  display: flex;
+  align-items: center;
+}
+.finalPrice p {
+  font-size: 0.35rem;
+  color: #676767;
+  text-align: right;
+}
+.finalPrice p span {
+  color: #ef3a3c;
+}
+.submit {
+  background-color: #fff;
+}
+.submit form {
+  display: flex;
+  justify-content: center;
+}
+.submit form .sub_post {
+  background-color: #f26c10;
+  font-size: 0.32rem;
+  color: #fff;
+  text-align: center;
+  width: 3.53rem;
+  height: 1.1rem;
+}

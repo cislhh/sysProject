@@ -1,0 +1,176 @@
+@import 'head.css';
+body {
+  margin: 0;
+  font-family: "微软雅黑", "宋体", Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 1;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-size: 100%;
+  font-weight: normal;
+}
+ul,
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+p,
+dl,
+dd {
+  margin: 0;
+}
+img {
+  vertical-align: middle;
+  border: none;
+}
+a {
+  text-decoration: none;
+  color: #666;
+}
+strong,
+b {
+  font-weight: normal;
+}
+i,
+em {
+  font-style: normal;
+}
+table {
+  border-collapse: collapse;
+}
+th {
+  font-weight: normal;
+  text-align: left;
+  vertical-align: top;
+}
+td {
+  text-align: left;
+  vertical-align: top;
+}
+input {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-family: inherit;
+  outline: none;
+  /*去掉输入框的蓝色轮廓框*/
+}
+textarea {
+  resize: none;
+  /* 禁止用户重置元素大小 */
+  overflow: auto;
+  font-family: inherit;
+  outline: none;
+}
+.clearfix::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+a,
+input,
+button {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+input,
+button {
+  -webkit-appearance: none;
+}
+input {
+  border-radius: 0;
+}
+input::-webkit-input-placeholder {
+  color: #666;
+  /*  默认的样式 */
+}
+input:focus::-webkit-input-placeholder {
+  color: #666;
+  /* 点击后的样式 */
+}
+body {
+  background-color: #f1f1f1;
+}
+.container {
+  width: 7.5rem;
+  margin: 0 auto;
+  background-color: #f1f1f1;
+}
+.wrap {
+  width: 7.1rem;
+  margin: 0 auto;
+}
+.com {
+  display: flex;
+  border: 0.01rem solid #eee;
+  background-color: #fff;
+}
+.com .lists {
+  width: 1.62rem;
+  border-right: 0.01rem solid #eee;
+  margin-top: 0.7rem;
+}
+.com .lists ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.com .lists ul li {
+  font-size: 0.26rem;
+  line-height: 0.52rem;
+  width: 1.46rem;
+  height: 0.52rem;
+  margin-top: 0.38rem;
+  text-align: center;
+  color: #666;
+  border-left: 0.08rem solid transparent;
+}
+.com .lists ul li:hover {
+  color: #f26c10;
+  border-left: 0.08rem solid #f26c10;
+}
+.com .coms {
+  width: 748.38rem;
+  margin-left: 0.25rem;
+}
+.com .coms .top {
+  display: flex;
+  justify-content: space-between;
+  width: 5.24rem;
+  margin-top: 1.38rem;
+}
+.com .coms .top h5 {
+  font-size: 0.26rem;
+  color: #000;
+}
+.com .coms .top a {
+  font-size: 0.24rem;
+  color: #000;
+}
+.com .coms .body {
+  display: flex;
+  overflow-y: scroll;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 5.24rem;
+  margin-top: 0.46rem;
+}
+.com .coms .body .com_list {
+  margin-top: 0.35rem;
+  text-align: center;
+}
+.com .coms .body .com_list p {
+  font-size: 0.23rem;
+  color: #878787;
+}
+.com .coms .body .com_list img {
+  width: 1.53rem;
+  height: 1.49rem;
+  margin-bottom: 0.23rem;
+}

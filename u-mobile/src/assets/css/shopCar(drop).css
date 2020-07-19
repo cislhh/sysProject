@@ -1,0 +1,258 @@
+@import 'head.css';
+@import "footer.css";
+body {
+  margin: 0;
+  font-family: "微软雅黑", "宋体", Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 1;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-size: 100%;
+  font-weight: normal;
+}
+ul,
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+p,
+dl,
+dd {
+  margin: 0;
+}
+img {
+  vertical-align: middle;
+  border: none;
+}
+a {
+  text-decoration: none;
+  color: #666;
+}
+strong,
+b {
+  font-weight: normal;
+}
+i,
+em {
+  font-style: normal;
+}
+table {
+  border-collapse: collapse;
+}
+th {
+  font-weight: normal;
+  text-align: left;
+  vertical-align: top;
+}
+td {
+  text-align: left;
+  vertical-align: top;
+}
+input {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-family: inherit;
+  outline: none;
+  /*去掉输入框的蓝色轮廓框*/
+}
+textarea {
+  resize: none;
+  /* 禁止用户重置元素大小 */
+  overflow: auto;
+  font-family: inherit;
+  outline: none;
+}
+.clearfix::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+a,
+input,
+button {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+input,
+button {
+  -webkit-appearance: none;
+}
+input {
+  border-radius: 0;
+}
+input::-webkit-input-placeholder {
+  color: #666;
+  /*  默认的样式 */
+}
+input:focus::-webkit-input-placeholder {
+  color: #666;
+  /* 点击后的样式 */
+}
+.container {
+  width: 7.5rem;
+  margin: 0 auto;
+  background-color: #f1f1f1;
+}
+section {
+  padding-top: 0.7rem;
+  overflow: hidden;
+}
+.comList {
+  position: relative;
+  background-color: #fff;
+  left: 0;
+  width: 8.52rem;
+  padding: 0 0.2rem;
+  height: 1.72rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0.15rem;
+  transition: left 0.3s linear;
+}
+.comList:hover {
+  left: -1.2rem;
+  transition: left 0.3s linear;
+}
+.comList .wrap .btn_delete {
+  display: inline-block;
+  float: right;
+  background-color: #e6393d;
+  color: #fff;
+  font-size: 0.22rem;
+  width: 0.98rem;
+  height: 1.72rem;
+}
+.comList .wrap .check {
+  width: 0.36rem;
+  height: 0.36rem;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: url('../images/index_images/icon_check.jpg') no-repeat center center;
+  background-size: 80%;
+}
+.comList .wrap .check:checked {
+  background: url('../images/index_images/icon_checked.jpg') no-repeat center center;
+  background-size: 80%;
+}
+.comList .wrap .msg {
+  margin-left: 0.77rem;
+  padding-top: 0.21rem;
+  width: 3.05rem;
+  display: inline-block;
+}
+.comList .wrap .msg img {
+  width: 1.02rem;
+  height: 1.07rem;
+  float: left;
+  margin-right: 0.36rem;
+  margin-top: 0.2rem;
+}
+.comList .wrap .msg .title {
+  font-size: 0.26rem;
+  color: #333;
+}
+.comList .wrap .msg .size {
+  font-size: 0.25rem;
+  color: #707070;
+  margin: 0.3rem 0 0.26rem 0;
+}
+.comList .wrap .msg .price {
+  font-size: 0.24rem;
+  color: #e6393d;
+}
+.comList .wrap .btn_num {
+  display: inline-block;
+  width: 2.03rem;
+  height: 0.57rem;
+  border: 0.01rem solid #000;
+  border-radius: 0.05rem;
+  margin-top: 0.9rem;
+  margin-left: 1rem;
+}
+.comList .wrap .btn_num input {
+  float: left;
+  height: 0.57rem;
+  font-size: 0.24rem;
+}
+.comList .wrap .btn_num input[type=text] {
+  width: 0.77rem;
+  border: 0.01rem solid #000;
+  border-top: none;
+  border-bottom: none;
+  text-align: center;
+}
+.comList .wrap .btn_num input[type=button] {
+  width: 0.62rem;
+  background-color: #fff;
+  border-radius: 0.05rem;
+}
+.close {
+  display: flex;
+  height: 1.14rem;
+  border: 1px solid #ebebeb;
+  border-left: none;
+  border-right: none;
+  position: fixed;
+  /* bottom: 1.5rem; */
+  top: 10.9rem;
+  z-index: 3;
+}
+.close .msg {
+  background-color: #fff;
+  width: 4.83rem;
+  height: 1.14rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0.1rem;
+}
+.close .msg .allCheck + span {
+  font-size: 0.22rem;
+  color: #666;
+}
+.close .msg .allCheck {
+  width: 0.36rem;
+  height: 0.36rem;
+  display: inline-block;
+  vertical-align: -0.1rem;
+  background: url('../../assets/images/index_images/icon_check.jpg') no-repeat center center;
+  background-size: 80%;
+}
+.close .msg .allCheck:checked {
+  background: url('../../assets/images/index_images/icon_checked.jpg') no-repeat center center;
+  background-size: 80%;
+}
+.close .msg .msg_final .allPrice {
+  font-size: 0.28rem;
+  color: #343434;
+  margin-bottom: 0.19rem;
+}
+.close .msg .msg_final .allPrice span {
+  color: #e4383d;
+}
+.close .msg .msg_final .cutPrice {
+  font-size: 0.2rem;
+  color: #a4a4a4;
+}
+.close .end {
+  background-color: #f26c10;
+  height: 1.14rem;
+  text-align: center;
+  line-height: 1.14rem;
+  font-size: .4rem;
+  width: 2.5rem
+}
+.close .end input[type=submit] {
+  width: 2.47rem;
+  font-size: 0.28rem;
+  color: #fff;
+  background-color: #f26c10;
+}

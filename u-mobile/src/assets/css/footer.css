@@ -1,0 +1,32 @@
+.footer {
+  position: fixed;
+  bottom: 0;
+  z-index: 3;
+}
+
+.footer div {
+  width: 7.5rem;
+  height: 1.2rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #fff;
+}
+
+.footer div .icon {
+  text-align: center;
+  
+}
+
+.footer div .icon span {
+  font-size: 25px;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.footer div .icon p {
+  font-size: 0.2rem;
+  /* color: #8d8d8d; */
+  margin-top: -0.3rem;
+}

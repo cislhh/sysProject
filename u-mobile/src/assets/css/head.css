@@ -1,0 +1,32 @@
+.header {
+  width: 7.5rem;
+  height: 0.7rem;
+  background-color: #f26c10;
+  position: fixed;
+  z-index: 3;
+  top: 0;
+}
+.header .wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 0.7rem;
+  line-height: 0.7rem;
+  padding: 0 0.1rem;
+}
+.header .wrap h4 {
+  font-size: 0.34rem;
+  color: #fff;
+}
+.header .wrap i {
+  display: inline-block;
+  height: 1.3rem;
+}
+.header .wrap .icon_back {
+  width: 0.19rem;
+  height: 0.3rem;
+}
+.header .wrap .icon_more {
+  width: 0.57rem;
+  height: 0.13rem;
+}
