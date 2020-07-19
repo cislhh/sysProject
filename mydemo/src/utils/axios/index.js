@@ -50,3 +50,37 @@ export function getRoleEdit(data){
 export function getRoleDelete(id){
     return http.post("/api/roledelete",id)
 }
+
+/*======================管理员接口==============================*/
+//管理员总数（用于计算分页）
+export function getuserCount(){
+    return http.get("/api/usercount")
+}
+//管理员列表接口（分页）
+export function getuserList(params){
+    return http.get("/api/userlist",{params})
+}
+//管理员添加接口
+export function getuserAdd(data){
+    return http.post("/api/useradd",data)
+}
+//管理员获取（一条）
+export function getuserInfo(params){
+    return http.get("/api/userinfo",{
+        params
+    })
+}
+//管理员修改
+export function getuserEdit(data){
+    return http.post("/api/useredit",data)
+}
+//管理员删除
+export function getuserDelete(id){
+    return http.post("/api/userdelete",id)
+}
+//管理员登录
+export function getuserLogin(params){
+    return http.get("/api/userlogin",{
+        params
+    })
+}

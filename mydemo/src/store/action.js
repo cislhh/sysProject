@@ -1,4 +1,4 @@
-import {getMenuList,getRoleList} from '../utils/axios'
+import {getMenuList,getRoleList,getuserList} from '../utils/axios'
 export default{
     //封装一个获取菜单列表
     getActionMenuList({commit}){
@@ -15,6 +15,16 @@ export default{
         .then(res=>{
             if(res.data.code==200){
                 commit("reqRoleList",res.data.list)
+            }
+        })
+    },
+    //封装一个获取管理员列表
+    getActionUserList({commit}){
+        getuserList({size:4,page:1})
+        .then(res=>{
+            console.log(res)
+            if(res.data.code==200){
+                commit("reqUserList",res.data.list)
             }
         })
     },
