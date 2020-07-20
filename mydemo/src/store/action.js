@@ -1,4 +1,4 @@
-import {getMenuList,getRoleList,getuserList} from '../utils/axios'
+import {getMenuList,getRoleList,getuserList,getcateList} from '../utils/axios'
 export default{
     //封装一个获取菜单列表
     getActionMenuList({commit}){
@@ -19,12 +19,24 @@ export default{
         })
     },
     //封装一个获取管理员列表
-    getActionUserList({commit}){
-        getuserList({size:4,page:1})
+    getActionUserList({commit},pageInfo){
+        getuserList(pageInfo)
         .then(res=>{
-            console.log(res)
+            // console.log(res)
             if(res.data.code==200){
+                //针对返回的结果进行转化，目的是为了转换null
+                let list=[];
+                list = res.data.list==null?[]:res.data.list;
                 commit("reqUserList",res.data.list)
+            }
+        })
+    },
+    //封装一个商品分类列表
+    getActionCateList({commit}){
+        getcateList({istree:1})
+        .then(res=>{
+            if(res.data.code==200){
+                commit("reqCateList",res.data.list)
             }
         })
     },

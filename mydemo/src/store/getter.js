@@ -10,5 +10,9 @@ export default{
     //管理员
     getStateUserList(state){
         return state.userList
+    },
+    //管理员
+    getStateCateList(state){
+        return state.cateList
     }
 }

@@ -45,6 +45,13 @@ export default new Router({
           }
         },
         {
+          path:"/sort",
+          component:()=>import("@/components/views/sort"),
+          meta:{
+            name:"商品分类"
+          }
+        },
+        {
           path:"",
           redirect:"/home"
         }

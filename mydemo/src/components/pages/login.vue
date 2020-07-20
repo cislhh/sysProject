@@ -7,11 +7,11 @@
       label-width="80px"
       class="demo-ruleForm login"
     >
-      <el-form-item label="用户名" prop="name">
-        <el-input v-model="userInfo.name" clearable></el-input>
+      <el-form-item label="用户名" prop="username">
+        <el-input v-model="userInfo.username" clearable></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="pass">
-        <el-input v-model="userInfo.pass" show-password clearable></el-input>
+      <el-form-item label="密码" prop="password">
+        <el-input v-model="userInfo.password" show-password clearable></el-input>
       </el-form-item>
 
       <el-form-item>
@@ -22,19 +22,20 @@
 </template>
 
 <script>
+import { getuserLogin } from "../../utils/axios";
 export default {
   data() {
     return {
       userInfo: {
-        name: "",
-        pass: ""
+        username: "",
+        password: ""
       },
       rules: {
-        name: [
+        username: [
           { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 2 到 16 个字符", trigger: "blur" }
+          { min: 2, max: 16, message: "长度在 2 到 16 个字符", trigger: "blur" }
         ],
-        pass: [
+        password: [
           { required: true, message: "请输入密码", trigger: "blur" },
           { min: 6, max: 18, message: "长度在 6 到 18 个字符", trigger: "blur" }
         ]
@@ -46,15 +47,20 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           //调取登录接口
-          if (this.userInfo.name == "admin" && this.userInfo.pass == "123456") {
-            //登录成功跳转到home页面
-            this.$message.success("登陆成功");
-            this.$router.push("/home");
-          } else {
-            this.$message.error("用户名或者密码错误");
-          }
+          getuserLogin(this.userInfo).then(res => {
+            // console.log(res,"返回信息")
+            if (res.data.code == 200) {
+              //登录成功跳转到home页面
+              this.$message.success(res.data.msg);
+              //把登录信息存储到本地存储中
+              sessionStorage.setItem('userInfo',JSON.stringify(res.data.list))
+              this.$router.push("/home");
+            } else {
+              this.$message.error(res.data.msg);
+            }
+          });
         } else {
-          this.$message.error("请正确输入信息");
+          console.log("error");
           return false;
         }
       });

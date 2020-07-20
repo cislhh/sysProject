@@ -79,8 +79,32 @@ export function getuserDelete(id){
     return http.post("/api/userdelete",id)
 }
 //管理员登录
-export function getuserLogin(params){
-    return http.get("/api/userlogin",{
+export function getuserLogin(data){
+    return http.post("/api/userlogin",data)
+}
+
+/*======================商品分类接口==============================*/
+//商品分类列表接口
+export function getcateList(params){
+    return http.get("/api/catelist",{
         params
     })
+}
+//商品分类添加接口
+export function getcateAdd(data){
+    return http.post("/api/cateadd",data)
+}
+//商品分类获取（一条）
+export function getcateInfo(params){
+    return http.get("/api/cateinfo",{
+        params
+    })
+}
+//商品分类修改
+export function getcateEdit(data){
+    return http.post("/api/cateedit",data)
+}
+//商品分类删除
+export function getcateDelete(id){
+    return http.post("/api/catedelete",id)
 }

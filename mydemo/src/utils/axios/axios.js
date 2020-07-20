@@ -9,9 +9,21 @@ let http = axios.create({
 })
 
 //请求拦截
+http.interceptors.request.use((config)=>{
+    //这是axios的拦截器
+    //在请求头中携带token,这是一个全局拦截，是接口就拦截
+    let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    config.headers.authorization=userInfo?userInfo.token:[];
+    // console.log(config,"配置");
+    return config
+})
 
 //响应拦截
-
+http.interceptors.response.use((res)=>{
+    //这里一般是用来全局拦截错误
+    // console.log(res,"响应全局")
+    return res
+})
 
 //暴露http
 export default http

@@ -10,5 +10,9 @@ export default{
     //触发修改state
     reqUserList(state,payload){
         state.userList=payload
+    },
+    //触发修改state
+    reqCateList(state,payload){
+        state.cateList=payload
     }
 }
