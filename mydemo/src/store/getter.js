@@ -18,5 +18,9 @@ export default{
     //管理员
     getStateSpecsList(state){
         return state.specsList
+    },
+    //商品管理
+    getStateGoodsList(state){
+        return state.goodsList
     }
 }

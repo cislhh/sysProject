@@ -19,4 +19,7 @@ export default{
     reqSpecsList(state,payload){
         state.specsList=payload
     },
+    reqGoodsList(state,payload){
+        state.goodsList = payload
+    },
 }
