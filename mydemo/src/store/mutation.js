@@ -14,5 +14,9 @@ export default{
     //触发修改state
     reqCateList(state,payload){
         state.cateList=payload
-    }
+    },
+    //触发修改state
+    reqSpecsList(state,payload){
+        state.specsList=payload
+    },
 }

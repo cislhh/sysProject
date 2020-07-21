@@ -14,5 +14,9 @@ export default{
     //管理员
     getStateCateList(state){
         return state.cateList
+    },
+    //管理员
+    getStateSpecsList(state){
+        return state.specsList
     }
 }

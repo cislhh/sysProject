@@ -108,3 +108,32 @@ export function getcateEdit(data){
 export function getcateDelete(id){
     return http.post("/api/catedelete",id)
 }
+
+/*======================商品规格接口==============================*/
+//商品规格总数（用于计算分页）
+export function getspecsCount(){
+    return http.get("/api/specscount")
+}
+//商品规格列表接口（分页）
+export function getspecsList(params){
+    return http.get("/api/specslist",{params})
+}
+//商品规格添加接口
+export function getspecsAdd(data){
+    return http.post("/api/specsadd",data)
+}
+//商品规格获取（一条）
+export function getspecsInfo(params){
+    return http.get("/api/specsinfo",{
+        params
+    })
+}
+//商品规格修改
+export function getspecsEdit(data){
+    return http.post("/api/specsedit",data)
+}
+//商品规格删除
+export function getspecsDelete(id){
+    return http.post("/api/specsdelete",id)
+}
+

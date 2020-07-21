@@ -18,7 +18,11 @@
       <el-table-column prop="catename" label="分类名称"> </el-table-column>
       <el-table-column prop="img" label="图片">
         <template slot-scope="item">
-          <img class="imgInfo" :src="'http://localhost:3000' + item.row.img" alt="" />
+          <img
+            class="imgInfo"
+            :src="'http://localhost:3000' + item.row.img"
+            alt=""
+          />
         </template>
       </el-table-column>
       <el-table-column prop="status" label="状态">
@@ -165,7 +169,7 @@ export default {
       // console.log(file)
     },
     changeInfo(file) {
-      this.imgUrl = file.raw;//这个raw里面储存了图片的各种信息
+      this.imgUrl = file.raw; //这个raw里面储存了图片的各种信息
       console.log(file);
     },
     //获取分类列表事件
@@ -189,6 +193,10 @@ export default {
       getcateInfo({ id }).then(res => {
         if (res.data.code == 200) {
           this.cateInfo = res.data.list;
+          //对获取的图片进行格式转化
+          this.fileList = this.cateInfo.img
+            ? [{ url: `http://localhost:3000${this.cateInfo.img}` }]
+            : [];
           this.cateInfo.status = this.cateInfo.status.toString();
         }
       });
@@ -227,7 +235,7 @@ export default {
     },
     //重置输入内容
     reset() {
-       this.dialogImageUrl = '', //显示图片
+      this.fileList = []; //清空上传文件列表
       this.cateInfo = {
         pid: 0,
         catename: "",
@@ -239,16 +247,16 @@ export default {
     subInfo(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          let data = this.cateInfo;
+          // 根据后台传值的时候都是json格式，如果有上传图片或者文件，那我们不能直接传值，需要利用FormData转化
+          let file = new FormData();
+          for (let i in data) {
+            file.append(i, data[i]);
+          }
+          //对图片地址进行操作
+          file.append("img", this.imgUrl);
           //根据isAdd状态判断执行接口
           if (this.isAdd) {
-            let data = this.cateInfo;
-            // 根据后台传值的时候都是json格式，如果有上传图片或者文件，那我们不能直接传值，需要利用FormData转化
-            let file = new FormData();
-            for (let i in data) {
-              file.append(i, data[i]);
-            }
-            //对图片地址进行操作
-            file.append("img", this.imgUrl);
             //调取添加接口
             getcateAdd(file).then(res => {
               if (res.data.code == 200) {
@@ -266,11 +274,10 @@ export default {
               }
             });
           } else {
-            let data = this.cateInfo;
-            data.id = this.editId;
+            file.append("id", this.editId);
             //调取更新接口
             // this.$http.post("/api/api/cateedit", data)
-            getcateEdit(data).then(res => {
+            getcateEdit(file).then(res => {
               if (res.data.code == 200) {
                 //关闭弹窗
                 this.dialogIsShow = false;

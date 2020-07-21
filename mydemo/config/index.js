@@ -15,7 +15,7 @@ module.exports = {
         target:"http://localhost:3000",
         changeOrigin:true,
         pathRewrite:{
-          '^/api':"http://localhost:3000"
+          '^/api':"http://localhost:3000"//这里的地址重写，如果和数据库后台中config/global.js中的地址统一，那就不用在写了，但是前提是建立的地址和后台的一致才可以不写地址重写
         }
       }
     },

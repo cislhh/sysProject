@@ -52,6 +52,13 @@ export default new Router({
           }
         },
         {
+          path:"/specs",
+          component:()=>import("@/components/views/specs"),
+          meta:{
+            name:"商品规格"
+          }
+        },
+        {
           path:"",
           redirect:"/home"
         }
