@@ -77,7 +77,9 @@ export default {
   getActionMemberList({ commit }) {
     getmemberList().then(res => {
       if (res.data.code == 200) {
-        commit("reqMemberList", res.data.list);
+        let list = [];
+        list = res.data.list == null ? [] : res.data.list;
+        commit("reqMemberList", list);
       }
     });
   },
@@ -87,7 +89,9 @@ export default {
       istree: 1
     }).then(res => {
       if (res.data.code == 200) {
-        commit("reqBannerList", res.data.list);
+        let list = [];
+        list = res.data.list == null ? [] : res.data.list;
+        commit("reqBannerList", list);
       }
     });
   },
@@ -101,5 +105,5 @@ export default {
         commit("reqSeckList", list);
       }
     });
-  },
+  }
 };

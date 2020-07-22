@@ -15,7 +15,7 @@
             <i class="el-icon-house"></i>
             <span slot="title">首页</span>
           </el-menu-item>
-          <el-submenu v-for="item in getStateMenuList" :key="item.id" :index="item.id.toString()">
+          <el-submenu v-for="item in navMenu" :key="item.id" :index="item.id.toString()">
             <template slot="title">
               <i :class="item.icon"></i>
               <span>{{item.title}}</span>
@@ -41,20 +41,17 @@ export default {
       //组件挂载，更改选中默认值
       this.defaultActive=this.$route.path
       
-      //页面一加载就调取菜单列表数据
-      // getMenuList({istree:1})
-      // .then(res=>{
-      //   if(res.data.code==200){
-      //     this.navList=res.data.list
-      //   }
-      // })
-      this.getActionMenuList()
   },
   methods: {
-    ...mapActions(["getActionMenuList"])
+    // ...mapActions(["getActionMenuList"])
   },
   computed: {
-    ...mapGetters(['getStateMenuList'])
+    navMenu(){
+      let data = {};
+      data = sessionStorage.getItem("userInfo")?JSON.parse(sessionStorage.getItem("userInfo")):[];
+      return data.menus
+    }
+    // ...mapGetters(['getStateMenuList'])
   },
 };
 </script>

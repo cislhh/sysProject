@@ -45,7 +45,7 @@
 
 <script>
 //引入菜单接口
-import { getMemberAdd, getMemberEdit, getMemberInfo } from "../../utils/axios";
+import { getmemberAdd, getmemberEdit, getmemberInfo } from "../../utils/axios";
 import { mapActions, mapGetters } from "vuex";
 export default {
   props: ["addInfo"],
@@ -54,7 +54,6 @@ export default {
       memberInfo: {
         uid: 0,
         phone: "",
-        password: "",
         nickname: "",
         password: "",
         status: "1"
@@ -125,64 +124,16 @@ export default {
         status: "1"
       };
     },
-    //提交
-    subInfo(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          //根据isAdd状态判断执行接口
-          if (this.addInfo.isAdd) {
-            // console.log(this.memberInfo, "表单信息");
-            //调取添加接口
-            getMemberAdd(this.memberInfo).then(res => {
-              if (res.data.code == 200) {
-                //关闭弹窗
-                //清空输入框
-                this.cancel();
-                //添加成功后，重新查询列表
-                this.getActionMemberList();
-                this.$message.success(res.data.msg);
-              } else if (res.data.code == 500) {
-                this.$message.warning(res.data.msg);
-              } else {
-                this.$message.error(res.data.msg);
-              }
-            });
-          } else {
-            let data = this.memberInfo;
-            data.id = this.editId;
-            //调取更新接口
-            // this.$http.post("/api/api/Memberedit", data)
-            getMemberEdit(data).then(res => {
-              if (res.data.code == 200) {
-                //关闭弹窗
-                //清空输入框
-                this.cancel();
-                //添加成功后，重新查询列表
-                this.getActionMemberList();
-                this.$message.success(res.data.msg);
-              } else if (res.data.code == 500) {
-                this.$message.warning(res.data.msg);
-              } else {
-                this.$message.error(res.data.msg);
-              }
-            });
-          }
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
-      });
-    },
+    
     //编辑
     update(id) {
       //给编辑id赋值
       this.editId = id;
       //调取菜单查询一条数据
-      getMemberInfo({ id }).then(res => {
+      getmemberInfo({ id }).then(res => {
         if (res.data.code == 200) {
           console.log(res);
           this.memberInfo = res.data.list;
-          this.memberInfo.type = this.memberInfo.type.toString();
           this.memberInfo.status = this.memberInfo.status.toString();
         }
       });

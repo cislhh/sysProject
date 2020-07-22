@@ -1,97 +1,107 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from "vue";
+import Router from "vue-router";
 
+Vue.use(Router);
 
-Vue.use(Router)
-
-export default new Router({
-  mode:"history",
+const router = new Router({
+  mode: "history",
   routes: [
     {
-      path: '/login',
+      path: "/login",
       component: () => import("@/components/pages/login")
     },
     {
-      path: '/index',
+      path: "/index",
       component: () => import("@/components/pages/index"),
-      children:[
+      children: [
         {
-          path:"/menu",
-          component:()=>import("@/pages/menu/menu"),
-          meta:{
-            name:"菜单管理"
+          path: "/menu",
+          component: () => import("@/pages/menu/menu"),
+          meta: {
+            name: "菜单管理"
           }
         },
         {
-          path:"/user",
-          component:()=>import("@/components/views/user"),
-          meta:{
-            name:"管理员管理"
+          path: "/user",
+          component: () => import("@/components/views/user"),
+          meta: {
+            name: "管理员管理"
           }
         },
         {
-          path:"/goods",
-          component:()=>import("@/pages/goods/goods"),
-          meta:{
-            name:"商品管理"
+          path: "/goods",
+          component: () => import("@/pages/goods/goods"),
+          meta: {
+            name: "商品管理"
           }
         },
         {
-          path:"/home",
-          component:()=>import("@/components/views/home")
+          path: "/home",
+          component: () => import("@/components/views/home")
         },
         {
-          path:"/role",
-          component:()=>import("@/components/views/role"),
-          meta:{
-            name:"角色管理"
+          path: "/role",
+          component: () => import("@/components/views/role"),
+          meta: {
+            name: "角色管理"
           }
         },
         {
-          path:"/sort",
-          component:()=>import("@/components/views/sort"),
-          meta:{
-            name:"商品分类"
+          path: "/sort",
+          component: () => import("@/components/views/sort"),
+          meta: {
+            name: "商品分类"
           }
         },
         {
-          path:"/specs",
-          component:()=>import("@/components/views/specs"),
-          meta:{
-            name:"商品规格"
+          path: "/specs",
+          component: () => import("@/components/views/specs"),
+          meta: {
+            name: "商品规格"
           }
         },
         {
-          path:"/member",
-          component:()=>import("@/pages/member/member"),
-          meta:{
-            name:"会员管理"
+          path: "/member",
+          component: () => import("@/pages/member/member"),
+          meta: {
+            name: "会员管理"
           }
         },
         {
-          path:"/banner",
-          component:()=>import("@/pages/banner/banner"),
-          meta:{
-            name:"轮播图管理"
+          path: "/banner",
+          component: () => import("@/pages/banner/banner"),
+          meta: {
+            name: "轮播图管理"
           }
         },
         {
-          path:"/seck",
-          component:()=>import("@/pages/seck/seck"),
-          meta:{
-            name:"限时秒杀管理"
+          path: "/seck",
+          component: () => import("@/pages/seck/seck"),
+          meta: {
+            name: "限时秒杀管理"
           }
         },
         {
-          path:"",
-          redirect:"/home"
+          path: "",
+          redirect: "/home"
         }
-
       ]
     },
     {
-      path: '*',
-      redirect:"/login"
+      path: "*",
+      redirect: "/login"
     }
   ]
-})
+});
+router.beforeEach((to, from, next) => {
+  if (to.path == "/login") {
+    next();
+    return;
+  }
+  if (!sessionStorage.getItem("userInfo")) {
+    next("/login");
+  }
+  next();
+});
+
+export default router;

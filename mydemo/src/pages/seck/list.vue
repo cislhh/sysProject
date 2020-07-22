@@ -26,14 +26,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- 分页器 -->
-    <el-pagination
-      background
-      layout="prev, pager, next"
-      :page-size="pageInfo.size"
-      :total="count"
-      @current-change="getPage"
-    ></el-pagination>
   </div>
 </template>
 
@@ -60,7 +52,6 @@ export default {
   mounted() {
     //组件一加载就调取商品接口
     //触发才调取vuex中的商品列表
-    this.getCount();
   },
   methods: {
     //封装一个获取商品列表事件
@@ -99,28 +90,6 @@ export default {
           });
         });
     },
-    //封装获取总条目接口
-    getCount() {
-      //调取总条数接口
-      getseckCount().then(res => {
-        if (res.data.code == 200) {
-          this.count = res.data.list[0].total;
-          //如果当前不是第一页并且只有一条数据，我就让页面数量--
-          if (this.pageInfo.page != 1 && this.getStateSeckList.length == 1) {
-            this.pageInfo.page--;
-          }
-          //调取获取商品规格接口列表的行动
-          this.$store.dispatch("getActionSeckList", this.pageInfo);
-        }
-      });
-    },
-    //当页面发生变化的时候触发该方法
-    getPage(n) {
-      //n是当前页
-      this.pageInfo.page = n;
-      //重新调取列表页面
-      this.$store.dispatch("getActionSeckList", this.pageInfo);
-    }
   }
 };
 </script>

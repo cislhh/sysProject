@@ -32,13 +32,13 @@
           :label-width="formLabelWidth"
           placeholder="请选择一级分类"
         >
-          <el-select v-model="seckInfo.first_cateid" placeholder="请选择">
+          <el-select @change="cateChange" v-model="seckInfo.first_cateid" placeholder="请选择">
             <el-option
-              v-for="item in getStateSeckList"
+              v-for="item in cateArr"
               :key="item.id"
-              :label="item.title"
+              :label="item.catename"
               :value="item.id"
-              >{{ item.title }}</el-option
+              >{{ item.catename }}</el-option
             >
           </el-select>
         </el-form-item>
@@ -49,11 +49,11 @@
         >
           <el-select v-model="seckInfo.second_cateid" placeholder="请选择">
             <el-option
-              v-for="item in getStateSeckList"
+              v-for="item in secondArr"
               :key="item.id"
-              :label="item.title"
+              :label="item.catename"
               :value="item.id"
-              >{{ item.title }}</el-option
+              >{{ item.catename }}</el-option
             >
           </el-select>
         </el-form-item>
@@ -96,7 +96,7 @@
 
 <script>
 //引入商品接口
-import { getseckAdd, getseckEdit, getseckInfo } from "../../utils/axios";
+import { getseckAdd, getseckEdit, getseckInfo ,getcateList} from "../../utils/axios";
 //调取辅助性函数
 import { mapActions, mapGetters } from "vuex";
 export default {
@@ -104,6 +104,8 @@ export default {
   data() {
     return {
         time:"",
+        cateArr:[],
+        secondArr:[],
       fileList: [], //文件上传列表
       dialogImageUrl: "", //显示图片
       dialogVisible: false, //开启图片的弹框
@@ -180,7 +182,23 @@ export default {
     //计算属性
     ...mapGetters(["getStateSeckList"])
   },
+  mounted(){
+    getcateList({pid:0})
+    .then(res=>{
+      if(res.data.code==200){
+        this.cateArr=res.data.list
+      }
+    })
+  },
   methods: {
+    cateChange(e) {
+    this.seckInfo.second_cateid="";
+        getcateList({ pid: e }).then(res => {
+          if (res.data.code == 200) {
+            this.secondArr = res.data.list;
+          }
+        });
+    },
     //当文件个数被限制时触发的函数
     handleExceed(files, fileList) {
       this.$message.warning(
@@ -239,7 +257,6 @@ export default {
         if (res.data.code == 200) {
           console.log(res);
           this.seckInfo = res.data.list;
-          this.seckInfo.type = this.seckInfo.type.toString();
           this.seckInfo.status = this.seckInfo.status.toString();
         }
       });

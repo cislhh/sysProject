@@ -11,7 +11,11 @@
             <el-table-column prop="goodsname" label="商品名称"></el-table-column>
             <el-table-column prop="price" label="商品价格"></el-table-column>
             <el-table-column prop="market_price" label="市场价格"></el-table-column>
-            <el-table-column prop="img" label="图片"></el-table-column>
+            <el-table-column prop="img" label="图片">
+                <template slot-scope="item">
+                    <img :src="$imgUrl+item.row.img" alt="" class="imgUrl">
+                </template>
+            </el-table-column>
             <el-table-column prop="isnew" label="是否新品">
                 <template slot-scope="item">
                     <el-tag v-if="item.row.isnew==1" type="success">是</el-tag>
@@ -30,7 +34,7 @@
                     <el-tag v-if="item.row.status==2" type="danger">禁用</el-tag>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" width="180">
+            <el-table-column label="操作">
                 <template slot-scope="item">
                     <el-button size="small" type="primary" @click="update(item.row.id)">编辑</el-button>
                     <el-button size="small" type="danger" @click="del(item.row.id)">删除</el-button>
@@ -143,6 +147,9 @@ export default {
 .el-pagination {
     float: right;
     margin: 16px 0;
+}
+.imgUrl{
+    width: 150px;
 }
 </style>
 

@@ -53,6 +53,7 @@
           label="角色权限："
           :label-width="formLabelWidth"
           prop="rolename"
+          
         >
           <el-tree
             :data="getStateMenuList"
@@ -63,6 +64,7 @@
             highlight-current
             :props="defaultProps"
             :default-checked-keys="defaultKey"
+            check-strictly
           >
           </el-tree>
         </el-form-item>
@@ -153,7 +155,6 @@ export default {
       //   })
       getRoleInfo({ id }).then(res => {
         if (res.data.code == 200) {
-          console.log(res.data.list.menus.split(","))
           this.menuInfo = res.data.list;
           this.defaultKey = this.menuInfo.menus
                         ? this.menuInfo.menus.split(',')

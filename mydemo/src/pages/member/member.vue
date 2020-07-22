@@ -2,10 +2,6 @@
   <div v-cloak>
     <!-- 面包屑导航 -->
     <bread-crumb></bread-crumb>
-    <!-- 按钮 -->
-    <div>
-      <el-button @click="add" type="primary" size="small">添加</el-button>
-    </div>
     <!-- 表格信息 -->
     <v-list @edit="edit"></v-list>
     <!-- 弹框内容 -->

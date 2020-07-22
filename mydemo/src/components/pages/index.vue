@@ -1,7 +1,12 @@
 <template>
   <div>
     <el-container>
-      <el-header>XXX大型后台管理</el-header>
+      <el-header>XXX大型后台管理
+        <div class="info">
+          <div class="username">{{getName}}</div>
+          <el-button @click="logOut" type="danger" size="small">退出</el-button>
+        </div>
+      </el-header>
       <el-container>
         <el-aside width="200px">
           <v-nav></v-nav>
@@ -23,7 +28,22 @@ export default {
   },
   components:{
     vNav
-  }
+  },
+  computed: {
+    getName(){
+      let data = "";
+      data = sessionStorage.getItem("userInfo")?JSON.parse(sessionStorage.getItem("userInfo")):"";
+      return data.username;
+    }
+  },
+  methods: {
+    //退出清空缓存
+    logOut(){
+      sessionStorage.removeItem("userInfo");
+      //清空后，跳转到登录页
+      this.$router.push("/login");
+    }
+  },
 };
 </script>
 
@@ -33,6 +53,13 @@ export default {
 .el-header {
     background-color: $bgColorSecond;
     color: #333;
+    line-height:60px;
 }
-
+.info 
+    float right
+    margin-right 20px 
+    .username
+        color #fff 
+        float left
+        margin-right 20px
 </style>
