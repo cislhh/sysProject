@@ -22,5 +22,17 @@ export default{
     //商品管理
     getStateGoodsList(state){
         return state.goodsList
-    }
+    },
+    //会员管理
+    getStateMemberList(state){
+        return state.memberList
+    },
+    //会员管理
+    getStateBannerList(state){
+        return state.bannerList
+    },
+    //会员管理
+    getStateSeckList(state){
+        return state.seckList
+    },
 }
