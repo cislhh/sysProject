@@ -7,7 +7,7 @@
       row-key="id"
       :tree-props="{ children: 'children' }"
     >
-      <el-table-column prop="id" label="活动名称"></el-table-column>
+      <el-table-column prop="title" label="活动名称"></el-table-column>
 
       <el-table-column prop="status" label="状态">
         <template slot-scope="item">
