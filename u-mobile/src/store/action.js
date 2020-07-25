@@ -3,7 +3,8 @@ import {
   getCateList,
   getCateTree,
   getIndexGoods,
-  getGoodsInfo
+  getGoodsInfo,
+  cartList,
 } from "../utils/axios";
 export default {
   //封装轮播图获取列表
@@ -54,20 +55,19 @@ export default {
       if (res.data.code == 200) {
         let list = [];
         list = res.data.list == null ? [] : res.data.list;
-        commit("reqIndexGoodsList", list);
-        console.log(list)
+        commit("reqIndexGoodsInfo", list);
+        // console.log(list)
+      }
+    });
+  },
+  //获取一个购物车列表
+  getActionCartList({ commit },uid) {
+    cartList(uid).then(res => {
+      if (res.data.code == 200) {
+        let list = [];
+        list = res.data.list == null ? [] : res.data.list;
+        commit("reqCartList", list);
       }
     });
   }
-  //   //封装一个获取限时秒杀管理列表
-  //   getActionSeckList({ commit }, pageInfo) {
-  //     getseckList(pageInfo).then(res => {
-  //       if (res.data.code == 200) {
-  //         //针对返回的结果进行转化，目的就是转化null
-  //         let list = [];
-  //         list = res.data.list == null ? [] : res.data.list;
-  //         commit("reqSeckList", list);
-  //       }
-  //     });
-  //   }
 };

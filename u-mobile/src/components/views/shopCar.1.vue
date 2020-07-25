@@ -2,7 +2,7 @@
   <div class="container" v-cloak>
     <my-header :titleName="title"></my-header>
     <section>
-      <div class="comList" v-for="(item, index) in goodsList" :key="item.index">
+      <div class="comList" v-for="(item, index) in goodsList" :key="item.id">
         <div class="wrap">
           <form>
             <input
@@ -14,8 +14,8 @@
             />
             <!-- <span></span> -->
             <div class="msg">
-              <img :src="$imgUrl + item.img" alt />
-              <h4 class="title">{{ item.goodsname }}</h4>
+              <img :src="item.img" alt />
+              <h4 class="title">{{ item.name }}</h4>
               <p class="size">{{ item.size }}</p>
               <p class="price">￥{{ item.price }}</p>
             </div>
@@ -67,15 +67,41 @@
 </template>
 
 <script>
-import { cartList, cartAdd, cartDelete } from "../../utils/axios";
-import { mapGetters, mapActions } from "vuex";
 import myHeader from "../titleHeader";
 export default {
   data() {
     return {
-      title: "购物车",
+      title:"购物车",
       checkAll: false,
-      goodsList: []
+      goodsList: [
+        {
+          id: 1,
+          name: "大衣",
+          img: require("../../assets/images/index_images/shop_1.jpg"),
+          price: 998,
+          num: 10,
+          size: "珍珠白",
+          checked: true
+        },
+        {
+          id: 2,
+          name: "夹克",
+          img: require("../../assets/images/index_images/shop_2.jpg"),
+          price: 98,
+          num: 1,
+          size: "钢琴黑",
+          checked: false
+        },
+        {
+          id: 3,
+          name: "手巾",
+          img: require("../../assets/images/index_images/shop_3.jpg"),
+          price: 88,
+          num: 7,
+          size: "粉嫩红",
+          checked: false
+        }
+      ]
     };
   },
   components: {
@@ -92,53 +118,25 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getStateCartList"]),
-
     allPrice() {
       let sum = 0;
       let allNumber = 0;
-      this.goodsList.filter((item, index, arr) => {
-        if (item.checked == true) {
-          allNumber += item.num;
-          sum += item.num * item.price;
+      this.goodsList.filter((item,index,arr)=>{
+        if(item.checked==true){
+          allNumber+=item.num;
+          sum+=item.num*item.price;
         }
-      });
+      })
       return {
         sum,
         allNumber
       };
     },
-    //封装获取uid
-    getUid() {
-      let data = "";
-      data = sessionStorage.getItem("userInfo")
-        ? JSON.parse(sessionStorage.getItem("userInfo"))
-        : "";
-      return data.uid;
-    },
   },
-  mounted() {
-    this.getActionCartList({ uid: this.getUid });
-    this.getList()
-  },
+
   methods: {
-    ...mapActions(["getActionCartList"]),
-    getList(){
-      cartList({uid:this.getUid}).then(res=>{
-        if(res.data.code==200){
-          res.data.list.forEach(item=>{
-            item.checked = false
-          })
-          this.goodsList = res.data.list;
-        }
-      })
-    },
     del(n) {
-      cartDelete({id:this.getStateCartList[n].id}).then(res=>{
-        if(res.data.code == 200){
-          this.getList()
-        }
-      })
+      this.goodsList.splice(n, 1);
     },
     //全选后，取消单个复选框的选中状态的同时取消全选状态
     choseAll() {
@@ -146,6 +144,7 @@ export default {
         item.checked = this.checkAll;
       });
     },
+
     //数量减少事件
     up(index) {
       this.goodsList[index].num++;
@@ -163,8 +162,9 @@ export default {
 </script>
 
 <style lang="" scoped>
+
 @import "../../assets/css/shopCar(drop).css";
-[v-clock] {
+[v-clock]{
   display: none;
 }
 </style>

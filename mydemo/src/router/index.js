@@ -101,6 +101,9 @@ router.beforeEach((to, from, next) => {
   if (!sessionStorage.getItem("userInfo")) {
     next("/login");
   }
+  if(to.path == "shopCar" && !sessionStorage.getItem("userInfo")){
+    next("/login");
+  }
   next();
 });
 

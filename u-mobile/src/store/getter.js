@@ -20,4 +20,9 @@ export default{
         return state.goodsInfo
     },
     
+    //获取一个购物车列表
+    getStateCartList(state){
+        return state.cartList
+    },
+    
 }

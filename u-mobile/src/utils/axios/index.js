@@ -32,3 +32,18 @@ export function userRegister(data){
 export function userLogin(data){
     return http.post("/api/login",data)
 }
+
+//购物车列表
+export function cartList(params){
+    return http.get("/api/cartlist",{
+        params
+    })
+}
+//购物车添加
+export function cartAdd(data){
+    return http.post("/api/cartadd",data)
+}
+//购物车删除
+export function cartDelete(data){
+    return http.post("/api/cartdelete",data)
+}

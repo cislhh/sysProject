@@ -54,8 +54,14 @@
         商品评价
       </p>
       <div class="user wrap">
-        <p class="userName" v-if="getStateGoodsInfo[0]">{{ getStateGoodsInfo[0].goodsname }}</p>
-        <p class="userMsg" v-if="getStateGoodsInfo[0]" v-html="getStateGoodsInfo[0].description"></p>
+        <p class="userName" v-if="getStateGoodsInfo[0]">
+          {{ getStateGoodsInfo[0].goodsname }}
+        </p>
+        <p
+          class="userMsg"
+          v-if="getStateGoodsInfo[0]"
+          v-html="getStateGoodsInfo[0].description"
+        ></p>
         <div class="userImg">
           <img src="../../assets/images/index_images/user_1.jpg" alt="" />
           <img src="../../assets/images/index_images/user_2.jpg" alt="" />
@@ -78,7 +84,11 @@
             path: '/shopCar'
           }"
         />
-        <van-goods-action-button type="warning" text="加入购物车" />
+        <van-goods-action-button
+          type="warning"
+          text="加入购物车"
+          @click="addShop"
+        />
         <van-goods-action-button type="danger" text="立即购买" />
       </van-goods-action>
     </footer>
@@ -88,6 +98,8 @@
 <script>
 import myHeader from "../titleHeader";
 import { mapGetters, mapActions } from "vuex";
+import { cartAdd, cartDelete } from "../../utils/axios";
+import { Notify } from 'vant';
 export default {
   data() {
     return {
@@ -100,14 +112,33 @@ export default {
     myHeader
   },
   computed: {
-    ...mapGetters(["getStateGoodsInfo"])
+    ...mapGetters(["getStateGoodsInfo"]),
+    //封装获取uid
+    getUid() {
+      let data = "";
+      data = sessionStorage.getItem("userInfo")
+        ? JSON.parse(sessionStorage.getItem("userInfo"))
+        : "";
+      return data.uid;
+    }
   },
   mounted() {
     this.getActionGoodsInfo({ id: this.$route.query.id });
-    // console.log(this.getStateGoodsInfo)
   },
   methods: {
-    ...mapActions(["getActionGoodsInfo"])
+    ...mapActions(["getActionGoodsInfo"]),
+    //购物车添加
+    addShop() {
+      cartAdd({
+        uid: this.getUid,
+        goodsid: this.getStateGoodsInfo[0].id,
+        num: this.value
+      }).then(res => {
+        if (res.data.code == 200) {
+          Notify({ type: "success", message: "购物车添加成功" });
+        }
+      });
+    }
   }
 };
 </script>
