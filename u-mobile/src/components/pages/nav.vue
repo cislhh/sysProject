@@ -6,8 +6,13 @@
           <li class="first">
             <a>推荐</a>
           </li>
-          <li @click="goSort(item.id,item.name)" v-for="(item,index) in comNav" :key="item.id">
-            <a>{{item.name}}</a>
+          <li
+            
+            v-for="(item, index) in getStateCateList"
+            :key="item.id"
+            @click="goSort(item.id, item.catename,index)"
+          >
+            <a>{{ item.catename }}</a>
           </li>
         </ul>
         <span class="arrow">
@@ -19,56 +24,34 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
       imgArrow: require("../../assets/images/index_images/arrow.jpg"),
-      comNav:[{
-          id:1,
-          name:"女装"
-      },
-      {
-          id:2,
-          name:"鞋包"
-      },
-      {
-          id:3,
-          name:"居家"
-      },
-      {
-          id:4,
-          name:"母婴童装"
-      },
-      {
-          id:5,
-          name:"鞋包"
-      },
-      {
-          id:6,
-          name:"居家"
-      },
-      {
-          id:7,
-          name:"鞋包"
-      },
-      {
-          id:8,
-          name:"居家"
-      }]
     };
   },
-  methods: {
-      goSort(id,name){
-        //   this.$router.push("/sort")
-          this.$router.push({
-              path:"/sort",
-              query:{
-                  id,
-                  name
-              }
-          })
-      }
+  computed: {
+    ...mapGetters(["getStateCateList"]),
   },
+  mounted() {
+    this.getActionCateList()
+  },
+
+  methods: {
+    ...mapActions(["getActionCateList"]),
+    goSort(id, catename,index) {
+      //   this.$router.push("/sort")
+      this.$router.push({
+        path: "/sort",
+        query: {
+          fid:id,
+          catename,
+          index
+        }
+      });
+    }
+  }
 };
 </script>
 

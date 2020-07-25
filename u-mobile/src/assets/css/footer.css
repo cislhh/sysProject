@@ -16,13 +16,16 @@
 
 .footer div .icon {
   text-align: center;
-  
+
 }
 
 .footer div .icon span {
   font-size: 25px;
   display: inline-block;
   overflow: hidden;
+  position: relative;
+  top: -20px;
+
 }
 
 .footer div .icon p {

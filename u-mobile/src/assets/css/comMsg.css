@@ -190,8 +190,7 @@ section {
   color: #000;
 }
 .comMenu .number form {
-  border: 0.01rem solid #505050;
-  border-radius: 0.05rem;
+  
 }
 .comMenu .number form input[type=text] {
   width: 0.79rem;
