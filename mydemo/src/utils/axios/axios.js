@@ -20,8 +20,9 @@ http.interceptors.request.use((config)=>{
 
 //响应拦截
 http.interceptors.response.use((res)=>{
-    //这里一般是用来全局拦截错误
-    // console.log(res,"响应全局")
+    if(res.data.code==403){
+        router.push('/login')
+    }
     return res
 })
 

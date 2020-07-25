@@ -1,7 +1,7 @@
 <template>
-  <div v-cloak>
-    <!-- 面包屑导航 -->
-    <bread-crumb></bread-crumb>
+  <div>
+    <!-- 面包屑 -->
+    <bread-Crumb></bread-Crumb>
     <!-- 表格信息 -->
     <v-list @edit="edit"></v-list>
     <!-- 弹框内容 -->
@@ -10,27 +10,22 @@
 </template>
 
 <script>
-import breadCrumb from "../../components/common/breadCrumb";
+//引入面包屑组件
+import breadCrumb from "../../components/common/breadcrumb";
 //引入list组件
 import vList from "./list";
-//引入add组件
+//引入弹框
 import vAdd from "./add";
 export default {
   data() {
     return {
       addInfo: {
-        // 控制弹框的信息
-        isAdd: true, //添加状态
+        //控制弹框的信息
+        isAdd: true, //添加
         dialogIsShow: false //是否出现弹框
       }
     };
   },
-  components: {
-    breadCrumb,
-    vList,
-    vAdd
-  },
-
   methods: {
     //子传父去修改父级的数据
     cancel(e) {
@@ -39,25 +34,26 @@ export default {
     //list组件传值并修改数据
     edit(e) {
       this.addInfo.isAdd = e.isAdd;
-      this.addinfo.dialogIsShow = e.dialogIsShow;
+      this.addInfo.dialogIsShow = e.dialogIsShow;
       this.$refs.vAdd.update(e.id);
     },
-    //添加
+    //点击添加按钮出现弹框
     add() {
       this.addInfo = {
         isAdd: true,
         dialogIsShow: true
       };
     }
+  },
+  components: {
+    breadCrumb,
+    vList,
+    vAdd
   }
 };
 </script>
 
 <style lang="stylus" scoped>
-[v-clock]{
-    dispaly:none
-}
-
 .el-button {
     margin-bottom: 10px;
 }

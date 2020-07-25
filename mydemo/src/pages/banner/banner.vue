@@ -50,7 +50,6 @@
       :before-close="cancel"
     >
       <el-form :model="bannerInfo" :rules="rules" ref="bannerInfo">
-        
         <el-form-item
           label="分类名称："
           :label-width="formLabelWidth"
@@ -141,7 +140,7 @@ export default {
   methods: {
     //图片移除
     handleRemove(file, fileList) {
-      console.log(file, fileList);
+      this.fileList = fileList;
     },
     //放大图片
     handlePreview(file) {
@@ -218,6 +217,7 @@ export default {
     //重置输入内容
     reset() {
       this.fileList = []; //清空上传文件列表
+      this.imgUrl = "";
       this.bannerInfo = {
         title: "",
         img: "",
@@ -256,6 +256,14 @@ export default {
             });
           } else {
             file.append("id", this.editId);
+            //如果删除图片进行判断
+            if (this.imgUrl == "" && this.fileList.length == 0) {
+              this.imgUrl = "";
+            } else {
+              //如果图片未修改 沿用上次图片地址 如果图片被修改使用新图片地址
+              this.imgUrl = this.imgUrl ? this.imgUrl : this.goodsInfo.img;
+              file.append("img", this.imgUrl);
+            }
             //调取更新接口
             // this.$http.post("/api/api/banneredit", data)
             getbannerEdit(file).then(res => {
