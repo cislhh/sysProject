@@ -26,6 +26,10 @@ const r = new Router({
           component: () => import("@/components/views/queryList")
         },
         {
+          path: "/shopCar_end",
+          component: () => import("@/components/views/shopCar_end")
+        },
+        {
           //重定向
           path: "",
           redirect: "/content"

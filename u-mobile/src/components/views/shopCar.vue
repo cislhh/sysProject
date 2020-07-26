@@ -60,7 +60,7 @@
       </div>
       <div class="end">
         <!-- 去结算({{allNum}}件) -->
-        <form>去结算{{ allPrice.allNumber }}件</form>
+        <form @click="to_end">去结算{{ allPrice.allNumber }}件</form>
       </div>
     </div>
   </div>
@@ -115,30 +115,31 @@ export default {
         ? JSON.parse(sessionStorage.getItem("userInfo"))
         : "";
       return data.uid;
-    },
+    }
   },
   mounted() {
     this.getActionCartList({ uid: this.getUid });
-    this.getList()
+    this.getList();
   },
   methods: {
     ...mapActions(["getActionCartList"]),
-    getList(){
-      cartList({uid:this.getUid}).then(res=>{
-        if(res.data.code==200){
-          res.data.list.forEach(item=>{
-            item.checked = false
-          })
+    //获取购物车列表
+    getList() {
+      cartList({ uid: this.getUid }).then(res => {
+        if (res.data.code == 200) {
+          res.data.list.forEach(item => {
+            item.checked = false;
+          });
           this.goodsList = res.data.list;
         }
-      })
+      });
     },
     del(n) {
-      cartDelete({id:this.getStateCartList[n].id}).then(res=>{
-        if(res.data.code == 200){
-          this.getList()
+      cartDelete({ id: this.getStateCartList[n].id }).then(res => {
+        if (res.data.code == 200) {
+          this.getList();
         }
-      })
+      });
     },
     //全选后，取消单个复选框的选中状态的同时取消全选状态
     choseAll() {
@@ -146,17 +147,44 @@ export default {
         item.checked = this.checkAll;
       });
     },
-    //数量减少事件
+    // 数量增加事件
     up(index) {
       this.goodsList[index].num++;
+      // console.log(this.goodsList[index].num)
+      //当数量变化后，重新提交数据
+      this.addShop(index);
     },
-    // 数量增加事件
+    //数量减少事件
     down(index) {
       if (this.goodsList[index].num <= 0) {
         this.goodsList[index].num = 0;
         return;
       }
       this.goodsList[index].num--;
+      // console.log(this.goodsList[index].num)
+      //当数量变化后，重新提交数据
+      this.addShop(index);
+    },
+    //购物车添加
+    addShop(n) {
+      cartAdd({
+        uid: this.goodsList[n].uid,
+        goodsid: this.goodsList[n].goodsid,
+        num: this.goodsList[n].num
+      }).then(res => {
+        if (res.data.code == 200) {
+          //再次载入当前数据
+          // console.log(this.goodsList[n].num)
+          this.getList();
+          // console.log(this.goodsList[n].num)
+        }
+      });
+    },
+    //前往购物车结算页面
+    to_end(){
+      this.$router.push({
+        path:"/shopCar_end"
+      })
     }
   }
 };
