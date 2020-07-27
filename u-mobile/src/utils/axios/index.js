@@ -47,3 +47,9 @@ export function cartAdd(data){
 export function cartDelete(data){
     return http.post("/api/cartdelete",data)
 }
+
+//获取限时秒杀信息(首页)
+//秒杀 必须是当天：00：00 到23：59
+export function getseckill() {
+    return http.get('/api/getseckill')
+  }

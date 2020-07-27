@@ -1,36 +1,41 @@
 <template>
   <div>
     <el-dialog
-      :title="addInfo.isAdd ? '商品添加' : '商品编辑'"
+      :title="addInfo.isAdd ? '秒杀活动添加' : '秒杀活动编辑'"
       :visible.sync="addInfo.dialogIsShow"
       center
       :before-close="cancel"
     >
       <el-form :model="seckInfo" :rules="rules" ref="seckInfo">
         <el-form-item
-          label="商品名称："
+          label="活动名称："
           :label-width="formLabelWidth"
           prop="title"
         >
           <el-input v-model="seckInfo.title"></el-input>
         </el-form-item>
-
-        <el-form-item label="活动期限：" :label-width="formLabelWidth">
-          <div class="block">
-            <el-date-picker
-              v-model="time"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-            ></el-date-picker>
-          </div>
+        <el-form-item
+          label="活动期限："
+          :label-width="formLabelWidth"
+          prop="title"
+        >
+          <el-date-picker
+            v-model="dateValue"
+            type="datetimerange"
+            align="right"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :picker-options="pickerOptions"
+            value-format="timestamp"
+            @change="getTime"
+          ></el-date-picker>
         </el-form-item>
-
         <el-form-item
           label="一级分类："
           :label-width="formLabelWidth"
           placeholder="请选择一级分类"
+          prop="first_cateid"
         >
           <el-select
             @change="cateChange"
@@ -50,9 +55,10 @@
           label="二级分类："
           :label-width="formLabelWidth"
           placeholder="请选择二级分类"
+          prop="second_cateid"
         >
           <el-select
-            @change="goodsList"
+            @change="getGoods"
             v-model="seckInfo.second_cateid"
             placeholder="请选择"
           >
@@ -65,11 +71,11 @@
             >
           </el-select>
         </el-form-item>
-
         <el-form-item
           label="商品："
           :label-width="formLabelWidth"
           placeholder="请选择商品"
+          prop="second_cateid"
         >
           <el-select v-model="seckInfo.goodsid" placeholder="请选择">
             <el-option
@@ -86,7 +92,6 @@
           <el-radio v-model="seckInfo.status" label="2">禁用</el-radio>
         </el-form-item>
       </el-form>
-
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel">取 消</el-button>
         <el-button
@@ -104,13 +109,12 @@
 </template>
 
 <script>
-//引入商品接口
+//引入秒杀活动接口
 import {
   getseckAdd,
   getseckEdit,
   getseckInfo,
   getcateList,
-  getgoodsInfo,
   getgoodsList
 } from "../../utils/axios";
 //调取辅助性函数
@@ -119,65 +123,112 @@ export default {
   props: ["addInfo"],
   data() {
     return {
-      time: [],
-      goodsArr: [],
-      cateArr: [],
-      secondArr: [],
-      fileList: [], //文件上传列表
-      dialogImageUrl: "", //显示图片
-      dialogVisible: false, //开启图片的弹框
-      imgUrl: "", //上传之后的图片地址
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            }
+          }
+        ]
+      },
       formLabelWidth: "100px", //label宽度
-      editId:0,
       seckInfo: {
-        begintime: "",
-        endtime: "",
-        first_cateid: "", //一级分类编号
-        second_cateid: "", //二级分类编号
-        goodsid: "", //二级分类编号
-        title: "", //商品名称
+        title: "", //限时秒杀名称
+        begintime: "", //开始时间
+        endtime: "", //结束时间
+        first_cateid: "", //商品一级分类编号
+        second_cateid: "", //商品二级分类编号
+        goodsid: "", //商品编号
         status: "1"
       },
       rules: {
         title: [
           {
             required: true,
-            message: "请输入商品名称",
+            message: "请输入秒杀活动名称",
+            trigger: "blur"
+          },
+          {
+            min: 2,
+            max: 20,
+            message: "长度在 2 到 20 个字符",
             trigger: "blur"
           }
         ]
-      }
+      },
+      dateValue: [],
+      cateArr: [],
+      secondArr: [],
+      goodsArr: []
     };
   },
   computed: {
     //计算属性
-    ...mapGetters(["getStateSeckList"])
+    ...mapGetters(["getStateMenuList"])
   },
   mounted() {
-    this.getActionSeckList();
-    getcateList({ pid: 0 }).then(res => {
-      if (res.data.code == 200) {
-        // console.log(res.data)
-        this.cateArr = res.data.list;
-      }
-    });
+    //组件一加载获取一级
+    this.getCatesList();
   },
   methods: {
-    cateChange(e) {
-      getcateList({ pid: e }).then(res => {
+    //获取分类列表
+    getCatesList(pid = 0) {
+      getcateList({ pid }).then(res => {
         if (res.data.code == 200) {
-          this.secondArr = res.data.list;
+          if (pid == 0) {
+            this.cateArr = res.data.list;
+          } else {
+            this.secondArr = res.data.list;
+          }
         }
       });
     },
-    goodsList(e) {
-      getgoodsList({ fid: e - 1, sid: e }).then(res => {
+    //点击一级获取二级
+    cateChange(e) {
+      this.secondArr = [];
+      this.getCatesList(e);
+    },
+    //获取商品
+    getGoods() {
+      //调取接口列表数据
+      getgoodsList({
+        fid: this.seckInfo.first_cateid,
+        sid: this.seckInfo.second_cateid
+      }).then(res => {
         if (res.data.code == 200) {
           this.goodsArr = res.data.list;
         }
       });
     },
-    //封装一个获取商品列表事件
+    //获取时间
+    getTime(e) {
+      this.seckInfo.begintime = e[0];
+      this.seckInfo.endtime = e[1];
+    },
+    //封装一个获取秒杀活动列表事件
     ...mapActions(["getActionSeckList"]),
     //关闭弹框事件
     cancel() {
@@ -186,37 +237,39 @@ export default {
     },
     //重置输入内容
     reset() {
-      (this.time = []),
-        (this.seckInfo = {
-          first_cateid: "", //一级分类编号
-          second_cateid: "", //二级分类编号
-          title: "", //商品名称
-          status: "1"
-        });
+      this.seckInfo = {
+        pid: 0, //上级分类编号
+        title: "", //秒杀活动名称
+        icon: "", //图标
+        url: "", //秒杀活动地址
+        type: "1", //类型1目录2秒杀活动
+        status: "1" //1是启用 2是禁用
+      };
     },
     //点击编辑按钮出现弹框并携带数据
     update(id) {
       //给编辑id赋值
       this.editId = id;
-      //调取商品查询一条数据
+      //调取秒杀活动查询一条数据
+      // getseckInfo({ id }).then(res => {
+      //   if (res.data.code == 200) {
+      //     this.seckInfo = res.data.list;
+      //     this.seckInfo.status = this.seckInfo.status.toString();
+      //   }
+      // });
       getseckInfo({ id }).then(res => {
         if (res.data.code == 200) {
           this.seckInfo = res.data.list;
           this.seckInfo.status = this.seckInfo.status.toString();
-
+          
           //返回时间
-          this.seckInfo.begintime = new Date(parseInt(this.seckInfo.begintime));
-          this.seckInfo.endtime = new Date(parseInt(this.seckInfo.endtime));
-          if (this.time == []) {
-            this.time.push(this.seckInfo.begintime, this.seckInfo.endtime);
-          } else {
-            this.time = [];
-            this.time.push(this.seckInfo.begintime, this.seckInfo.endtime);
-          }
+          this.seckInfo.begintime = parseInt(res.data.list.begintime);
+          this.seckInfo.endtime = parseInt(res.data.list.endtime);
+          this.getGoods()
           //返回二级分类名称
           this.cateChange(this.seckInfo.first_cateid);
           //返回商品名称
-          this.goodsList(this.seckInfo.second_cateid)
+          this.getGoods(this.seckInfo.second_cateid);
         }
       });
     },
@@ -224,8 +277,6 @@ export default {
     subInfo(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.seckInfo.begintime = this.time[0].getTime().toString();
-          this.seckInfo.endtime = this.time[1].getTime().toString();
           //根据isAdd状态去判断执行接口
           if (this.addInfo.isAdd) {
             //调取添加接口
@@ -245,10 +296,8 @@ export default {
           } else {
             let data = this.seckInfo;
             data.id = this.editId;
-            
             //调取更新接口
             getseckEdit(data).then(res => {
-              console.log(data.first_cateid)
               if (res.data.code == 200) {
                 //关闭弹框 清空输入框
                 this.cancel();

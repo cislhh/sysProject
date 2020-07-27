@@ -7,8 +7,8 @@
         </van-swipe-item>
       </a>
     </van-swipe> -->
-    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white" :width="375">
-      <van-swipe-item ref="bw" class="bannerW"  v-for="item in getStateBannerList" :key="item.id">
+    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+      <van-swipe-item ref="bw" class="bannerW"  v-for="item in bannerList" :key="item.id">
         <a>
           <img :src="$imgUrl+item.img" class="imgUrl" />
         </a>
@@ -18,7 +18,8 @@
 </template>
 
 <script>
-import {mapActions,mapGetters} from 'vuex'
+import {getBannerList} from '../utils/axios'
+// import {mapActions,mapGetters} from 'vuex'
 export default {
   data() {
     return {
@@ -27,13 +28,19 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getStateBannerList"])
+    // ...mapGetters(["getStateBannerList"])
   },
   mounted() {
-    this.getActionBannerList();
+    // this.getActionBannerList();
+    this.getBanner();
   },
   methods: {
-    ...mapActions(["getActionBannerList"]),
+    // ...mapActions(["getActionBannerList"]),
+    getBanner(){
+      getBannerList().then(res=>{
+        this.bannerList = res.data.list
+      })
+    }
   },
 };
 </script>
@@ -41,12 +48,9 @@ export default {
 <style scoped>
 @import "../assets/css/index.css";
 .my-swipe .van-swipe-item {
-  
   color: #fff;
   font-size: 0.2rem;
-  line-height: 1.5rem;
-  text-align: center;
-  background-color: #39a9ed;
+  line-height: 1.5rem;  /* background-color: #39a9ed; */
 }
 .imgUrl {
   width: 7.5rem;

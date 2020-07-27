@@ -71,10 +71,13 @@ r.beforeEach((to,from,next)=>{
     return
   }
 
-  if(!sessionStorage.getItem("userInfo")){
+  if(!sessionStorage.getItem("userInfo") && to.path=="/shopCar"){
     next("/login");
   }
 
+  if(!sessionStorage.getItem("userInfo") && to.path=="/my"){
+    next("/login");
+  }
   next();
 })
 export default r;

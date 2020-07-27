@@ -298,16 +298,17 @@ body {
 
 .sale .left .time {
   font-size: 0.26rem;
+  position: relative;
 }
 
 .sale .left .time span {
-  display: inline-block;
-  background-color: #333;
-  color: #fff;
-  line-height: 0.42rem;
-  padding: 0 0.09rem;
-  border-radius: 0.05rem;
-  margin: 0 0.04rem;
+  /* display: inline-block; */
+  /* background-color: #333; */
+  /* color: #fff; */
+  /* line-height: 0.42rem; */
+  /* padding: 0 0.09rem; */
+  /* border-radius: 0.05rem; */
+  /* margin: 0 0.04rem; */
 }
 
 .sale .left .time i {
@@ -317,6 +318,9 @@ body {
   padding: 0 0.25rem 0 0.21rem;
   background: url("../images/index_images/bg.jpg") no-repeat;
   background-size: 100% 100%;
+  position: absolute;
+  top: 0;
+  right: .5rem
 }
 
 .sale .left .pic {
