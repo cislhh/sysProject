@@ -20,7 +20,9 @@
               <p class="price">￥{{ item.price }}</p>
             </div>
             <div class="btn_num">
-              <van-stepper v-model="item.num" @change="addShop(index)" />
+              <input type="button" value="-" @click="down(index)" />
+              <input type="text" v-model="item.num" />
+              <input type="button" value="+" @click="up(index)" />
             </div>
             <input
               type="button"
@@ -145,24 +147,24 @@ export default {
         item.checked = this.checkAll;
       });
     },
-    // // 数量增加事件
-    // up(index) {
-    //   this.goodsList[index].num++;
-    //   // console.log(this.goodsList[index].num)
-    //   //当数量变化后，重新提交数据
-    //   this.addShop(index);
-    // },
-    // //数量减少事件
-    // down(index) {
-    //   if (this.goodsList[index].num <= 0) {
-    //     this.goodsList[index].num = 0;
-    //     return;
-    //   }
-    //   this.goodsList[index].num--;
-    //   // console.log(this.goodsList[index].num)
-    //   //当数量变化后，重新提交数据
-    //   this.addShop(index);
-    // },
+    // 数量增加事件
+    up(index) {
+      this.goodsList[index].num++;
+      // console.log(this.goodsList[index].num)
+      //当数量变化后，重新提交数据
+      this.addShop(index);
+    },
+    //数量减少事件
+    down(index) {
+      if (this.goodsList[index].num <= 0) {
+        this.goodsList[index].num = 0;
+        return;
+      }
+      this.goodsList[index].num--;
+      // console.log(this.goodsList[index].num)
+      //当数量变化后，重新提交数据
+      this.addShop(index);
+    },
     //购物车添加
     addShop(n) {
       cartAdd({
@@ -173,25 +175,16 @@ export default {
         if (res.data.code == 200) {
           //再次载入当前数据
           // console.log(this.goodsList[n].num)
-          // this.getList();
+          this.getList();
           // console.log(this.goodsList[n].num)
         }
       });
     },
     //前往购物车结算页面
-    to_end() {
-      if (this.allPrice.allNumber != 0) {
-        this.$router.push({
-          path: "/shopCar_end"
-        });
-      }
-    }
-  },
-  beforeRouteEnter(to, from, next) {
-    if (sessionStorage.getItem("userInfo")) {
-      next();
-    } else {
-      next("/login");
+    to_end(){
+      this.$router.push({
+        path:"/shopCar_end"
+      })
     }
   }
 };

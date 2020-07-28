@@ -134,6 +134,13 @@ export default {
   },
   components: {
     myHeader
+  },
+  beforeRouteEnter (to, from, next) {
+    if (sessionStorage.getItem("userInfo")) {
+        next()
+    }else{
+      next("/login")
+    }
   }
 };
 </script>

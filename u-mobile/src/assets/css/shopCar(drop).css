@@ -172,7 +172,7 @@ section {
   display: inline-block;
   width: 2.03rem;
   height: 0.57rem;
-  border: 0.01rem solid #000;
+  /* border: 0.01rem solid #000; */
   border-radius: 0.05rem;
   margin-top: 0.9rem;
   margin-left: 1rem;

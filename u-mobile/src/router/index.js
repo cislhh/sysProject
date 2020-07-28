@@ -65,19 +65,19 @@ const r = new Router({
 });
 
 //设置路由首位
-r.beforeEach((to,from,next)=>{
-  if(to.path=="/login"){
-    next();
-    return
-  }
+// r.beforeEach((to,from,next)=>{
+//   if(to.path=="/login"){
+//     next();
+//     return
+//   }
 
-  if(!sessionStorage.getItem("userInfo") && to.path=="/shopCar"){
-    next("/login");
-  }
+//   if(!sessionStorage.getItem("userInfo") && to.path=="/shopCar"){
+//     next("/login");
+//   }
 
-  if(!sessionStorage.getItem("userInfo") && to.path=="/my"){
-    next("/login");
-  }
-  next();
-})
+//   if(!sessionStorage.getItem("userInfo") && to.path=="/my"){
+//     next("/login");
+//   }
+//   next();
+// })
 export default r;
