@@ -14,22 +14,19 @@
         </div>
       </div>
       <div class="coms">
-        <div class="com wrap">
+        <div class="com wrap" v-for="item in endList" :key="item.goodsid">
           <div class="msg">
-            <img src="../../assets/images/index_images/shop_4.jpg" alt="" />
-            <p class="name">雅诗兰黛护肤霜</p>
-            <p class="size">规格：50g</p>
+            <img :src=$imgUrl+item.img alt="" />
+            <p class="name">{{item.goodsname}}</p>
           </div>
-          <div class="price"><span>￥</span>120.00</div>
+          <div>
+            <div class="price"><span>￥</span>{{item.price}}</div>
+            <p class="endNum">购买数量：<span>{{item.num}}</span></p>
+          </div>
+          
         </div>
-        <div class="num wrap">
-          <p>购买数量：</p>
-          <form>
-            <input type="button" value="-" class="btn_add" />
-            <input type="text" value="1" class="txt_text" />
-            <input type="button" value="+" class="btn_cut" />
-          </form>
-        </div>
+        
+
         <div class="post wrap">
           <p>配送方式</p>
           <p>xx快递</p>
@@ -54,7 +51,7 @@
       <div class="end">
         <div class="end_price wrap">
           <p>商品金额</p>
-          <p>￥68.00</p>
+          <p>￥{{endPrice}}</p>
         </div>
         <div class="end_psot wrap">
           <p>运费</p>
@@ -75,13 +72,13 @@
       </div>
       <div class="finalPrice">
         <div class="wrap">
-          <p>实付金额：<span>￥68.00</span></p>
+          <p>实付金额：<span>￥{{endPrice}}</span></p>
         </div>
       </div>
       <div class="submit">
         <div class="wrap">
           <form>
-            <input type="submit" value="提交订单" class="sub_post" />
+            <input type="submit" value="提交订单" class="sub_post" @click="toHome"/>
           </form>
         </div>
       </div>
@@ -95,6 +92,7 @@ export default {
   data() {
     return {
       title: "确认订单",
+      endList:[]
     };
   },
   components: {
@@ -108,6 +106,32 @@ export default {
         ? JSON.parse(sessionStorage.getItem("userInfo"))
         : "";
       return data.nickname;
+    },
+    //总金额
+    endPrice(){
+        let num = 0;
+        this.endList.map(item=>{
+            num+=item.num*item.price
+        })
+        return num
+    }
+  },
+  mounted() {
+      //组件一加载就获取购物车传递过来的列表
+      this.getCarList()
+  },
+  methods: {
+      //获取session中储存的购物车列表信息
+    getCarList(){
+        let data = "";
+        data = sessionStorage.getItem("userBuy")?JSON.parse(sessionStorage.getItem("userBuy")):"";
+        this.endList = data;
+    },
+
+    toHome(){
+        this.$router.push({
+            path:"/content"
+        })
     }
   },
 };

@@ -168,9 +168,14 @@ section {
 .coms .com .price {
   font-size: 0.28rem;
   color: #e6393b;
+  margin-left: 0.6rem;
+  width: .72rem;
 }
 .coms .com .price span {
   font-size: 0.19rem;
+}
+.coms .com .endNum {
+    font-size: 12px;
 }
 .coms .num {
   height: 1.36rem;

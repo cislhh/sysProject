@@ -44,7 +44,7 @@ export default {
       getseckill().then(res => {
         if (res.data.code == 200) {
           this.start = new Date().getTime();
-          this.end = res.data.list[0].endtime;
+          this.end = res.data.list?res.data.list[0].endtime:"";
           this.time = this.end-this.start;
         }
       });

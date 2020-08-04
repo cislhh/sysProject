@@ -145,24 +145,7 @@ export default {
         item.checked = this.checkAll;
       });
     },
-    // // 数量增加事件
-    // up(index) {
-    //   this.goodsList[index].num++;
-    //   // console.log(this.goodsList[index].num)
-    //   //当数量变化后，重新提交数据
-    //   this.addShop(index);
-    // },
-    // //数量减少事件
-    // down(index) {
-    //   if (this.goodsList[index].num <= 0) {
-    //     this.goodsList[index].num = 0;
-    //     return;
-    //   }
-    //   this.goodsList[index].num--;
-    //   // console.log(this.goodsList[index].num)
-    //   //当数量变化后，重新提交数据
-    //   this.addShop(index);
-    // },
+
     //购物车添加
     addShop(n) {
       cartAdd({
@@ -181,6 +164,8 @@ export default {
     //前往购物车结算页面
     to_end() {
       if (this.allPrice.allNumber != 0) {
+          sessionStorage.setItem("userBuy",JSON.stringify(this.goodsList))
+
         this.$router.push({
           path: "/shopCar_end"
         });
